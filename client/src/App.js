@@ -29,6 +29,7 @@ function App() {
 
     useEffect(() => {
         fetchData();
+        // console.log(todos);
     });
 
     async function fetchData() {

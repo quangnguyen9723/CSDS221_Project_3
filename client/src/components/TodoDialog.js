@@ -20,7 +20,7 @@ import toastr from "toastr";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import DoDisturbIcon from '@mui/icons-material/DoDisturb';
 import EditIcon from '@mui/icons-material/Edit';
-import {createTodo} from "../api";
+import {createTodo, updateTodo} from "../api";
 
 const initialFormState = {
     title: "",
@@ -49,7 +49,10 @@ export default function TodoDialog({form, setForm, openDialog, setOpenDialog, to
         if (isValidDescription()) {
             const newTodos = JSON.parse(JSON.stringify(todos));
             const index = newTodos.findIndex(todo => todo.title === form.title);
-            newTodos[index] = {form};
+            newTodos[index] = {...form};
+
+            updateTodo(todos[index]._id, newTodos[index]);
+
             setTodos([...newTodos]);
             toastr.success(`Task updated successfully!`, ``, {'closeButton': true, positionClass: 'toast-bottom-right'});
             cancel();

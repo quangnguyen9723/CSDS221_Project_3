@@ -22,14 +22,14 @@ export default function Todo(props) {
         props.setOpenDialog(true);
         // fill the dialog with existed data
         const newTodos = [...props.todos];
-        const todo = newTodos.find(todo => todo.id === id);
+        const todo = newTodos.find(todo => todo._id === id);
         props.setForm(todo);
         // put the todo back to the todos - this will be handled in ToDoDialog
     }
 
     async function deleteTodo(id) {
         apiDelete(id);
-        const newTodos = props.todos.filter(todo => todo.id !== id);
+        const newTodos = props.todos.filter(todo => todo._id !== id);
         props.setTodos(newTodos);
         toastr.success(`Task deleted successfully!`, ``, { 'closeButton': true, positionClass: 'toast-bottom-right' });
     }
