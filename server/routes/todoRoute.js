@@ -3,9 +3,9 @@ const {getTodos, createTodo, updateTodo, deleteTodo} = require("../controllers/t
 
 const router = express.Router();
 
-router.get('/', getTodos);
-router.post('/', createTodo);
-router.patch('/:id', updateTodo);
-router.delete('/:id', deleteTodo);
+router.get('/api/todos', getTodos);
+router.post('/api/todos', createTodo);
+router.patch('/api/todos/:id', updateTodo);
+router.delete('/api/todos/:id', deleteTodo);
 
 module.exports = router;

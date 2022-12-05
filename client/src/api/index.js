@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const url = 'http://localhost:8080';
+// const url = 'http://localhost:8080/api/todos';
+const url = '/api/todos';
 
 export const fetchTodos = () => axios.get(url).then(res => res.data).catch(e => console.log(e));
 
