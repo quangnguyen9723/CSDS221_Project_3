@@ -30,7 +30,7 @@ function App() {
     useEffect(() => {
         fetchData();
         // console.log(todos);
-    });
+    }, [todos]);
 
     async function fetchData() {
         fetchTodos().then(data => setTodos(data)).catch(e => console.log(e));

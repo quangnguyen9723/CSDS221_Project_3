@@ -5,15 +5,16 @@ import EditIcon from '@mui/icons-material/Edit';
 import CancelIcon from '@mui/icons-material/Cancel';
 import toastr from "toastr";
 
-import {deleteTodo as apiDelete} from "../api/index.js";
+import {deleteTodo as apiDelete, updateTodo as apiUpdate} from "../api/index.js";
 
 export default function Todo(props) {
 
-    async function toggleIsComplete(title) {
-        const newTodos = [...props.todos];
-        const todo = newTodos.find(todo => todo.title === title);
-        todo.isComplete = !todo.isComplete;
-        props.setTodos(newTodos);
+    async function toggleIsComplete(id) {
+        const newTodos = JSON.parse(JSON.stringify(props.todos));
+        const todo = newTodos.find(todo => todo._id === id);
+        // todo.isComplete = !todo.isComplete;
+        // props.setTodos(newTodos);
+        apiUpdate(todo._id, {...todo, isComplete: !todo.isComplete});
     }
 
     function updateTodo(id) {
@@ -34,7 +35,7 @@ export default function Todo(props) {
         toastr.success(`Task deleted successfully!`, ``, { 'closeButton': true, positionClass: 'toast-bottom-right' });
     }
     return (
-        <TableRow key={props.title}>
+        <TableRow>
             <TableCell align='center' sx={{flexWrap: "wrap"}}>{props.title}</TableCell>
             <TableCell align="center">{props.description}</TableCell>
             <TableCell align="center">{new Date(props.deadline || new Date()).toLocaleDateString("en-US")}</TableCell>
@@ -42,7 +43,7 @@ export default function Todo(props) {
             <TableCell align="center">
                 <Checkbox
                     checked={props.isComplete}
-                    onChange={() => toggleIsComplete(props.title)}
+                    onChange={() => toggleIsComplete(props.id)}
                 />
             </TableCell>
             <TableCell align="center">

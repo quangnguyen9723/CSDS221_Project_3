@@ -49,13 +49,19 @@ export default function TodoDialog({form, setForm, openDialog, setOpenDialog, to
         if (isValidDescription()) {
             const newTodos = JSON.parse(JSON.stringify(todos));
             const index = newTodos.findIndex(todo => todo.title === form.title);
-            newTodos[index] = {...form};
+            const newTodo = {...form};
 
-            updateTodo(todos[index]._id, newTodos[index]);
-
-            setTodos([...newTodos]);
-            toastr.success(`Task updated successfully!`, ``, {'closeButton': true, positionClass: 'toast-bottom-right'});
-            cancel();
+            updateTodo(todos[index]._id, newTodo)
+                .then(newTodo => {
+                    newTodos[index] = newTodo;
+                    setTodos([...newTodos]);
+                    toastr.success(`Task updated successfully!`, ``, {
+                        'closeButton': true,
+                        positionClass: 'toast-bottom-right'
+                    });
+                    cancel();
+                })
+                .catch(e => console.log(e));
         }
     }
 
@@ -114,7 +120,7 @@ export default function TodoDialog({form, setForm, openDialog, setOpenDialog, to
         <Dialog open={openDialog}>
             {/*header*/}
             <DialogTitle sx={{bgcolor: 'primary.dark', color: 'white'}}>
-                {isAdd ? <AddCircleIcon /> : <EditIcon fontSize="small"/>}{" "}
+                {isAdd ? <AddCircleIcon/> : <EditIcon fontSize="small"/>}{" "}
                 {isAdd ? "Add" : "Edit"}{" "}
                 Task
             </DialogTitle>
