@@ -30,12 +30,12 @@ export default function Todo(props) {
 
     async function deleteTodo(id) {
         apiDelete(id);
-        const newTodos = props.todos.filter(todo => todo._id !== id);
-        props.setTodos(newTodos);
+        // const newTodos = props.todos.filter(todo => todo._id !== id);
+        // props.setTodos(newTodos);
         toastr.success(`Task deleted successfully!`, ``, { 'closeButton': true, positionClass: 'toast-bottom-right' });
     }
     return (
-        <TableRow>
+        <TableRow sx={{height: '6vw'}}>
             <TableCell align='center' sx={{flexWrap: "wrap"}}>{props.title}</TableCell>
             <TableCell align="center">{props.description}</TableCell>
             <TableCell align="center">{new Date(props.deadline || new Date()).toLocaleDateString("en-US")}</TableCell>

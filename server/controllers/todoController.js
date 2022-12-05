@@ -13,9 +13,9 @@ exports.getTodos = async (req, res) => {
 };
 
 exports.createTodo = async (req, res) => {
-    const { title, description, deadline, priority, isComplete } = req.body;
+    const { username, title, description, deadline, priority, isComplete } = req.body;
 
-    const newTodo = new Todo({ title, description, deadline, priority, isComplete })
+    const newTodo = new Todo({ username, title, description, deadline, priority, isComplete })
 
     try {
         await newTodo.save();
@@ -28,11 +28,11 @@ exports.createTodo = async (req, res) => {
 
 exports.updateTodo = async (req, res) => {
     const { id } = req.params;
-    const { title, description, deadline, priority, isComplete } = req.body;
+    const { username, title, description, deadline, priority, isComplete } = req.body;
 
     if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No todo with id: ${id}`);
 
-    const updatedTodo = { title, description, deadline, priority, isComplete, _id: id };
+    const updatedTodo = { username, title, description, deadline, priority, isComplete, _id: id };
 
     await Todo.findByIdAndUpdate(id, updatedTodo, { new: true });
 

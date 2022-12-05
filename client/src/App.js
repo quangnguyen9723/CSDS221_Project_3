@@ -12,6 +12,7 @@ import {useEffect, useState} from "react";
 import Todo from "./components/Todo";
 import TodoDialog from "./components/TodoDialog";
 import {fetchTodos} from "./api";
+import UserDialog from "./components/UserDialog";
 
 const initialFormState = {
     title: "",
@@ -22,23 +23,34 @@ const initialFormState = {
 };
 
 function App() {
+    const [username, setUsername] = useState("");
     const [form, setForm] = useState(initialFormState);
     const [todos, setTodos] = useState([]);
     const [openDialog, setOpenDialog] = useState(false);
     const [isAdd, setIsAdd] = useState(true);
+    const [openAuth, setOpenAuth] = useState(false);
+    const [isLogin, setIsLogin] = useState(true);
 
     useEffect(() => {
         fetchData();
-        // console.log(todos);
-    }, [todos]);
+    });
 
     async function fetchData() {
-        fetchTodos().then(data => setTodos(data)).catch(e => console.log(e));
+        fetchTodos().then(data => setTodos(data.filter(todo => todo.username === username))).catch(e => console.log(e));
     }
 
     return (
         <Card sx={{m: 2}}>
+            <UserDialog
+                username={username}
+                setUsername={setUsername}
+                openAuth={openAuth}
+                setOpenAuth={setOpenAuth}
+                isLogin={isLogin}
+                setIsLogin={setIsLogin}
+            />
             <TodoDialog
+                username={username}
                 form={form}
                 setForm={setForm}
                 openDialog={openDialog}
@@ -47,7 +59,13 @@ function App() {
                 setTodos={setTodos}
                 isAdd={isAdd}
             />
-            <Banner setOpenDialog={setOpenDialog} setIsAdd={setIsAdd}/>
+            <Banner
+                username={username}
+                setUsername={setUsername}
+                setOpenDialog={setOpenDialog}
+                setIsAdd={setIsAdd}
+                setOpenAuth={setOpenAuth}
+                setIsLogin={setIsLogin}/>
             <CardContent>
                 <TableContainer>
                     <Table>

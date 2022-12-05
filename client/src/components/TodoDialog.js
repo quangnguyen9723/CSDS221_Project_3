@@ -30,7 +30,7 @@ const initialFormState = {
     isComplete: false
 };
 
-export default function TodoDialog({form, setForm, openDialog, setOpenDialog, todos, setTodos, isAdd}) {
+export default function TodoDialog({username, form, setForm, openDialog, setOpenDialog, todos, setTodos, isAdd}) {
     const [textTitle, setTextTitle] = useState("");
     const [validTitle, setValidTitle] = useState(true);
     const [textDescription, setTextDescription] = useState("");
@@ -38,7 +38,7 @@ export default function TodoDialog({form, setForm, openDialog, setOpenDialog, to
 
     async function add() {
         if (isValidForm()) {
-            const {data} = await createTodo(form);
+            const {data} = await createTodo({...form, username});
             setTodos([...todos, data]);
             toastr.success(`Task added successfully!`, ``, {'closeButton': true, positionClass: 'toast-bottom-right'});
             cancel();
@@ -47,14 +47,14 @@ export default function TodoDialog({form, setForm, openDialog, setOpenDialog, to
 
     function update() {
         if (isValidDescription()) {
-            const newTodos = JSON.parse(JSON.stringify(todos));
-            const index = newTodos.findIndex(todo => todo.title === form.title);
-            const newTodo = {...form};
+            // const newTodos = JSON.parse(JSON.stringify(todos));
+            const index = todos.findIndex(todo => todo.title === form.title);
+            const newTodo = {...form, username};
 
             updateTodo(todos[index]._id, newTodo)
                 .then(newTodo => {
-                    newTodos[index] = newTodo;
-                    setTodos([...newTodos]);
+                    // newTodos[index] = newTodo;
+                    // setTodos([...newTodos]);
                     toastr.success(`Task updated successfully!`, ``, {
                         'closeButton': true,
                         positionClass: 'toast-bottom-right'
